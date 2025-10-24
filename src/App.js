@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { UserProvider } from './context/UserContextApi';
+// import AuthForm from './pages/AuthForm'; // <-- Place your AuthForm here
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import RequireAuth from './components/RequireAuth';
+import AuthForm from './pages/Login';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<AuthForm/>} />
+          {/* Protected routes */}
+          <Route element={<RequireAuth />}>
+            <Route path="/home" element={<Home />} />
+          </Route>
+          <Route path="/not-found" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 
